@@ -9,7 +9,6 @@ import java.util.Set;
 @Entity
 @Table(name="Carts")
 @Data
-
 public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +19,7 @@ public class ShoppingCart {
     private Customer customer;
 
     @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL)
-    private ClientOrder clientOrder;
+    private CustomerOrder customerOrder;
 
     @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CartItem> items;

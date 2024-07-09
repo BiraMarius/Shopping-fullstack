@@ -5,13 +5,16 @@ import lombok.Data;
 
 
 @Entity
-@Table(name="Client_contact_info")
+@Table(name="Customer_contact_info")
 @Data
-public class ClientContact {
+public class CustomerContact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToOne(mappedBy = "customerContactInfo", cascade = CascadeType.ALL)
+    private CustomerOrder customerOrder;
 
     @Column
     private String firstName;

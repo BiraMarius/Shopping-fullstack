@@ -1,13 +1,19 @@
 package com.example.shoppingfullstack.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "Category")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Category {
 
     @Id
@@ -22,4 +28,9 @@ public class Category {
 
     @OneToOne(mappedBy = "category", cascade = CascadeType.ALL)
     private SpecsList specs;
+
+    public Category(String name, SpecsList specs) {
+        this.name = name;
+        this.specs = specs;
+    }
 }

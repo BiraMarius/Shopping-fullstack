@@ -13,6 +13,9 @@ public class DeliveryAdress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne(mappedBy = "deliveryAdress", cascade = CascadeType.ALL)
+    private CustomerOrder customerOrder;
+
     @Column
     private String country;
 

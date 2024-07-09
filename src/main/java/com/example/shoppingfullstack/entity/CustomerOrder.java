@@ -1,5 +1,6 @@
 package com.example.shoppingfullstack.entity;
 
+import com.example.shoppingfullstack.util.DeliveryStatus;
 import jakarta.persistence.*;
 
 import lombok.Data;
@@ -8,7 +9,7 @@ import lombok.Data;
 @Entity
 @Table(name="Orders")
 @Data
-public class ClientOrder {
+public class CustomerOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,12 +19,13 @@ public class ClientOrder {
     private ShoppingCart cart;
 
     @Column
-    private Enum status;
+    private DeliveryStatus status;
 
     @OneToOne
     @JoinColumn(name = "deliveryAdress_id")
     private DeliveryAdress deliveryAdress;
 
     @OneToOne
-    private ClientContact clientContactInfo;
+    @JoinColumn(name="customerContact_id")
+    private CustomerContact customerContactInfo;
 }
