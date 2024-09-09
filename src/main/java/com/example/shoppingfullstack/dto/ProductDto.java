@@ -1,19 +1,28 @@
 package com.example.shoppingfullstack.dto;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
-public class Product {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class ProductDto {
 
     private Long id;
 
-    private Category category;
+    private CategoryDto category;
 
-    private Set<Shop> shops;
+    private Set<ShopDto> shops;
 
-    private CartItem cartItem;
+    private CartItemDto cartItem;
 
     private String name;
 

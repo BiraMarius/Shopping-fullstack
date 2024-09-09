@@ -1,12 +1,21 @@
 package com.example.shoppingfullstack.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Set;
 
-public class SpecsList {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class SpecsListDto {
 
     private Long id;
 
-    private Set<Spec> specs;
+    private Set<SpecDto> specs;
 
-    private Category category;
+    private CategoryDto category;
 }

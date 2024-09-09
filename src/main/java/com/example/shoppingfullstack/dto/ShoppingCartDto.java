@@ -1,17 +1,26 @@
 package com.example.shoppingfullstack.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.util.Set;
 
-public class ShoppingCart {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class ShoppingCartDto {
 
     private Long id;
 
-    private Customer customer;
+    private CustomerDto customer;
 
-    private ClientOrder clientOrder;
+    private CustomerOrderDto customerOrder;
 
-    private Set<CartItem> items;
+    private Set<CartItemDto> items;
 
     private BigDecimal total;
 

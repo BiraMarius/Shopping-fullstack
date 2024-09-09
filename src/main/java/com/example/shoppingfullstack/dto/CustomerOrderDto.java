@@ -1,8 +1,16 @@
 package com.example.shoppingfullstack.dto;
 
 import com.example.shoppingfullstack.util.DeliveryStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public class ClientOrderDto {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class CustomerOrderDto {
 
     private Long id;
 
@@ -12,5 +20,5 @@ public class ClientOrderDto {
 
     private DeliveryAdressDto deliveryAdress;
 
-    private ClientContactDto clientContactInfo;
+    private CustomerContactDto customerContactInfo;
 }

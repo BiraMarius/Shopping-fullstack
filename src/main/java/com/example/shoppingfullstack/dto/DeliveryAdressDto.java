@@ -1,7 +1,15 @@
 package com.example.shoppingfullstack.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public class DeliveryAdress {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class DeliveryAdressDto {
 
     private Long id;
 

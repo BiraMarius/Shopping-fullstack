@@ -1,4 +1,9 @@
-package com.example.shoppingfullstack.service;
+package com.example.shoppingfullstack.repository;
 
-public class ShopService {
+import com.example.shoppingfullstack.entity.Shop;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ShopRepository extends JpaRepository<Shop, Long> {
 }
