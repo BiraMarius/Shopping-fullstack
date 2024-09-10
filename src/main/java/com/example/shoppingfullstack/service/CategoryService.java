@@ -26,6 +26,7 @@ public class CategoryService {
             //category.setName(name);
             //category.setSpecs(specsList);
             categoryRepository.save(category);
+            specsList.setCategory(category);
             specListRepository.save(specsList);
         } else {
             throw new ThisIsAGeneralException("This category and SpecList already exists.");
