@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class SpecBody {
 
-    private SpecsList specsList;
+    private String categoryName;
 
     private String name;
 

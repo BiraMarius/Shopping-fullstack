@@ -1,11 +1,17 @@
 package com.example.shoppingfullstack.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name="Spec")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Spec {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,4 +26,10 @@ public class Spec {
 
     @Column
     private String valueOfSpec;
+
+    public Spec(SpecsList specsList, String name, String valueOfSpec) {
+        this.specsList = specsList;
+        this.name = name;
+        this.valueOfSpec = valueOfSpec;
+    }
 }
