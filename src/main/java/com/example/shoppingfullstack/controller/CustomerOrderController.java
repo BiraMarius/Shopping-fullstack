@@ -1,2 +1,7 @@
-package com.example.shoppingfullstack.controller;public class CustomerOrderController {
+package com.example.shoppingfullstack.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class CustomerOrderController {
 }

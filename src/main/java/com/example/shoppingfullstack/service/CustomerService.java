@@ -1,2 +1,7 @@
-package com.example.shoppingfullstack.service;public class CustomerService {
+package com.example.shoppingfullstack.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class CustomerService {
 }
