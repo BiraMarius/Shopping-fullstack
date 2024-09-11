@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "Adresses")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class AdressOfCustomer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,4 +44,15 @@ public class AdressOfCustomer {
     @Column
     private String additionalInfo;
 
+    public AdressOfCustomer(Customer customer, String country, String county, String city, String postalCode, String street, String number, String building, String additionalInfo) {
+        this.customer = customer;
+        this.country = country;
+        this.county = county;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.street = street;
+        this.number = number;
+        this.building = building;
+        this.additionalInfo = additionalInfo;
+    }
 }

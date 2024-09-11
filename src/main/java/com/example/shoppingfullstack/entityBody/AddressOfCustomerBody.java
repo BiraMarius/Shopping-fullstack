@@ -1,7 +1,8 @@
 package com.example.shoppingfullstack.entityBody;
 
-import com.example.shoppingfullstack.entity.Customer;
+import lombok.Data;
 
+@Data
 public class AdressOfCustomerBody {
 
     private String customerEmail;
