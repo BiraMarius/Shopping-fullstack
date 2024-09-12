@@ -22,8 +22,8 @@ public class CustomerOrder {
     private DeliveryStatus status;
 
     @OneToOne
-    @JoinColumn(name = "deliveryAdress_id")
-    private DeliveryAdress deliveryAdress;
+    @JoinColumn(name = "deliveryAddress_id")
+    private DeliveryAddress deliveryAddress;
 
     @OneToOne
     @JoinColumn(name="customerContact_id")

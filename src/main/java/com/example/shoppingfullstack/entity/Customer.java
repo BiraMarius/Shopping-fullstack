@@ -25,7 +25,7 @@ public class Customer {
     private Set<ShoppingCart> carts;
 
     @OneToMany(mappedBy = "customer")
-    private List<AdressOfCustomer> addressesOfCustomer;
+    private List<AddressOfCustomer> addressesOfCustomer;
 
     @Column
     private String firstName;

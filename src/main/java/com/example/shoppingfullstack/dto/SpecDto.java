@@ -13,8 +13,6 @@ public class SpecDto {
 
     private Long id;
 
-    private SpecsListDto specsList;
-
     private String name;
 
     private String valueOfSpec;

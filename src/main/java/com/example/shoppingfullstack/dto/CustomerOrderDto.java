@@ -18,7 +18,7 @@ public class CustomerOrderDto {
 
     private DeliveryStatus status;
 
-    private DeliveryAdressDto deliveryAdress;
+    private DeliveryAddressDto deliveryAddress;
 
     private CustomerContactDto customerContactInfo;
 }

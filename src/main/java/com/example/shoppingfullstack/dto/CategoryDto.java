@@ -18,6 +18,5 @@ public class CategoryDto {
     private Set<ProductDto> products;
 
     private String name;
-
-    private SpecsListDto specs;
+    
 }

@@ -26,6 +26,9 @@ public class Product {
     @OneToOne(mappedBy = "product")
     private CartItem cartItem;
 
+    @ManyToMany(mappedBy= "productList")
+    private Set<Spec> specs;
+
     @Column
     private String name;
 
@@ -45,5 +48,20 @@ public class Product {
     private Long stock;
 
     @Column
+    private String barcode;
+
+    @Column
     private LocalDate addedDate;
+
+    public Product(Category category, Set<Spec> specs, String name, String brand, String description, BigDecimal price, String shortDescription, String barcode, LocalDate addedDate) {
+        this.category = category;
+        this.specs = specs;
+        this.name = name;
+        this.brand = brand;
+        this.description = description;
+        this.price = price;
+        this.shortDescription = shortDescription;
+        this.barcode = barcode;
+        this.addedDate = addedDate;
+    }
 }

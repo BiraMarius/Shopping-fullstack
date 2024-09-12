@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,11 +27,7 @@ public class Category {
     @Column
     private String name;
 
-    @OneToOne(mappedBy = "category", cascade = CascadeType.ALL)
-    private SpecsList specs;
-
-    public Category(String name, SpecsList specs) {
+    public Category(String name) {
         this.name = name;
-        this.specs = specs;
     }
 }

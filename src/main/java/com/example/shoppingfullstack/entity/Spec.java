@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Entity
 @Table(name="Spec")
 @Data
@@ -17,9 +19,9 @@ public class Spec {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="specsList_id")
-    private SpecsList specsList;
+    @ManyToMany
+    @JoinTable(name="Spec-products", joinColumns= @JoinColumn(name = "product_id"), inverseJoinColumns= @JoinColumn(name = "spec_id"))
+    private Set<Product> productList;
 
     @Column
     private String name;
@@ -27,8 +29,7 @@ public class Spec {
     @Column
     private String valueOfSpec;
 
-    public Spec(SpecsList specsList, String name, String valueOfSpec) {
-        this.specsList = specsList;
+    public Spec(String name, String valueOfSpec) {
         this.name = name;
         this.valueOfSpec = valueOfSpec;
     }

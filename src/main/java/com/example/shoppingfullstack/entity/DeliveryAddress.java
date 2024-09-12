@@ -5,15 +5,15 @@ import lombok.Data;
 
 
 @Entity
-@Table(name = "Delivery_adresses")
+@Table(name = "Delivery_addresses")
 @Data
-public class DeliveryAdress {
+public class DeliveryAddress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "deliveryAdress", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "deliveryAddress", cascade = CascadeType.ALL)
     private CustomerOrder customerOrder;
 
     @Column

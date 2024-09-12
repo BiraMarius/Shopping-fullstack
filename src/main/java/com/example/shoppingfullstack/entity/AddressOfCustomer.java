@@ -7,12 +7,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "Adresses")
+@Table(name = "Addresses")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AdressOfCustomer {
+public class AddressOfCustomer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,7 +44,7 @@ public class AdressOfCustomer {
     @Column
     private String additionalInfo;
 
-    public AdressOfCustomer(Customer customer, String country, String county, String city, String postalCode, String street, String number, String building, String additionalInfo) {
+    public AddressOfCustomer(Customer customer, String country, String county, String city, String postalCode, String street, String number, String building, String additionalInfo) {
         this.customer = customer;
         this.country = country;
         this.county = county;

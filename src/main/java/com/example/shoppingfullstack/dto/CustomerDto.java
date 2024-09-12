@@ -20,7 +20,7 @@ public class CustomerDto {
 
     private Set<ShoppingCartDto> carts;
 
-    private List<AdressOfCustomerDto> addressesOfCustomer;
+    private List<AddressOfCustomerDto> addressesOfCustomer;
 
     private String firstName;
 

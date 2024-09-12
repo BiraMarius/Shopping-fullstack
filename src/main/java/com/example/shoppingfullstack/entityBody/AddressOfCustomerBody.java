@@ -3,7 +3,7 @@ package com.example.shoppingfullstack.entityBody;
 import lombok.Data;
 
 @Data
-public class AdressOfCustomerBody {
+public class AddressOfCustomerBody {
 
     private String customerEmail;
 

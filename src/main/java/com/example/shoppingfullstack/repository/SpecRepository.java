@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SpecRepository extends JpaRepository<Spec, Long> {
+    Spec findSpecByNameAndValueOfSpecIgnoreCase(String Name, String ValueOfSpec);
 }

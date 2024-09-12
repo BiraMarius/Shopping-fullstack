@@ -1,8 +1,6 @@
 package com.example.shoppingfullstack.service;
 
-import com.example.shoppingfullstack.entity.AdressOfCustomer;
 import com.example.shoppingfullstack.entity.Customer;
-import com.example.shoppingfullstack.entity.ShoppingCart;
 import com.example.shoppingfullstack.entityBody.CustomerBody;
 import com.example.shoppingfullstack.exception.ThisIsAGeneralException;
 import com.example.shoppingfullstack.repository.CustomerRepository;
@@ -10,8 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -31,7 +27,7 @@ public class CustomerService {
     public Customer checkIfCustomerExists(CustomerBody customerBody) throws RuntimeException{
         Customer customer = customerRepository.findCustomerByFirstNameAndLastNameAndEmailAndPhone(customerBody.getFirstName(),
                 customerBody.getLastName(), customerBody.getEmail(), customerBody.getPhone());
-        Customer customerCheckByEmail = customerRepository.findCustomerByEmail(customerBody.getEmail());
+        Customer customerCheckByEmail = customerRepository.findCustomerByEmailIgnoreCase(customerBody.getEmail());
         Customer customerCheckByPhone = customerRepository.findCustomerByPhone(customerBody.getPhone());
         if(customer != null){
             return customer;
@@ -41,4 +37,5 @@ public class CustomerService {
             return null;
         }
     }
+
 }

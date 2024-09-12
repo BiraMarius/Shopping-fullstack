@@ -1,46 +1,46 @@
 package com.example.shoppingfullstack.service;
 
-import com.example.shoppingfullstack.entity.AdressOfCustomer;
+import com.example.shoppingfullstack.entity.AddressOfCustomer;
 import com.example.shoppingfullstack.entity.Customer;
-import com.example.shoppingfullstack.entityBody.AdressOfCustomerBody;
+import com.example.shoppingfullstack.entityBody.AddressOfCustomerBody;
 import com.example.shoppingfullstack.exception.ThisIsAGeneralException;
-import com.example.shoppingfullstack.repository.AdressOfCustomerRepository;
+import com.example.shoppingfullstack.repository.AddressOfCustomerRepository;
 import com.example.shoppingfullstack.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class AdressOfCustomerService {
+public class AddressOfCustomerService {
 
-    private final AdressOfCustomerRepository adressOfCustomerRepository;
+    private final AddressOfCustomerRepository addressOfCustomerRepository;
     private final CustomerRepository customerRepository;
 
-    public void addAdressOfCustomer(AdressOfCustomerBody adressOfCustomerBody) throws RuntimeException{
-        Customer customer = customerRepository.findCustomerByEmailIgnoreCase(adressOfCustomerBody.getCustomerEmail());
-        checkNotNullAtributes(adressOfCustomerBody);
+    public void addAddressOfCustomer(AddressOfCustomerBody addressOfCustomerBody) throws RuntimeException{
+        Customer customer = customerRepository.findCustomerByEmailIgnoreCase(addressOfCustomerBody.getCustomerEmail());
+        checkNotNullAtributes(addressOfCustomerBody);
         if(customer != null){
-            AdressOfCustomer adressOfCustomer = new AdressOfCustomer(customer, adressOfCustomerBody.getCountry(),
-                    adressOfCustomerBody.getCounty(), adressOfCustomerBody.getCity(), adressOfCustomerBody.getPostalCode(),
-                    adressOfCustomerBody.getStreet(), adressOfCustomerBody.getNumber(), adressOfCustomerBody.getBuilding(),
-                    adressOfCustomerBody.getAdditionalInfo());
-            adressOfCustomerRepository.save(adressOfCustomer);
+            AddressOfCustomer addressOfCustomer = new AddressOfCustomer(customer, addressOfCustomerBody.getCountry(),
+                    addressOfCustomerBody.getCounty(), addressOfCustomerBody.getCity(), addressOfCustomerBody.getPostalCode(),
+                    addressOfCustomerBody.getStreet(), addressOfCustomerBody.getNumber(), addressOfCustomerBody.getBuilding(),
+                    addressOfCustomerBody.getAdditionalInfo());
+            addressOfCustomerRepository.save(addressOfCustomer);
         } else {
             throw new ThisIsAGeneralException("Customer not found.");
         }
     }
 
-    private void checkNotNullAtributes(AdressOfCustomerBody adressOfCustomerBody) throws RuntimeException{
-        validateField("Email",adressOfCustomerBody.getCustomerEmail());
-        validateField("Country",adressOfCustomerBody.getCountry());
-        validateField("County",adressOfCustomerBody.getCounty());
-        validateField("City",adressOfCustomerBody.getCity());
-        validateField("Postal code",adressOfCustomerBody.getPostalCode());
-        validateField("Street",adressOfCustomerBody.getStreet());
-        validateField("Number",adressOfCustomerBody.getNumber());
-//        if(adressOfCustomerBody.getBuilding() == null || adressOfCustomerBody.getBuilding().isEmpty()){
+    private void checkNotNullAtributes(AddressOfCustomerBody addressOfCustomerBody) throws RuntimeException{
+        validateField("Email",addressOfCustomerBody.getCustomerEmail());
+        validateField("Country",addressOfCustomerBody.getCountry());
+        validateField("County",addressOfCustomerBody.getCounty());
+        validateField("City",addressOfCustomerBody.getCity());
+        validateField("Postal code",addressOfCustomerBody.getPostalCode());
+        validateField("Street",addressOfCustomerBody.getStreet());
+        validateField("Number",addressOfCustomerBody.getNumber());
+//        if(addressOfCustomerBody.getBuilding() == null || addressOfCustomerBody.getBuilding().isEmpty()){
 //
-//        }else if(adressOfCustomerBody.getAdditionalInfo() == null || adressOfCustomerBody.getAdditionalInfo().isEmpty()){
+//        }else if(addressOfCustomerBody.getAdditionalInfo() == null || addressOfCustomerBody.getAdditionalInfo().isEmpty()){
 //
 //        }
     }

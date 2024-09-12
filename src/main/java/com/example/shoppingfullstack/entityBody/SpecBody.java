@@ -1,14 +1,13 @@
 package com.example.shoppingfullstack.entityBody;
 
-import com.example.shoppingfullstack.entity.SpecsList;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class SpecBody {
 
-    private String categoryName;
+    private String specName;
 
-    private String name;
-
-    private String valueOfSpec;
+    private String specValue;
 }

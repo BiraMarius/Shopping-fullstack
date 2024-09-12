@@ -18,7 +18,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
                                                                 @Param("EMAIL") String EMAIL,
                                                                 @Param("PHONE") String PHONE);
 
-    Customer findCustomerByEmail(String email);
+    Customer findCustomerByEmailIgnoreCase(String email);
 
     Customer findCustomerByPhone(String phone);
 }
