@@ -19,8 +19,13 @@ public class Spec {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany
-    @JoinTable(name="Spec-products", joinColumns= @JoinColumn(name = "product_id"), inverseJoinColumns= @JoinColumn(name = "spec_id"))
+
+    //Join table "spec-products" not saving any keys
+//    @ManyToMany
+//    @JoinTable(name="Spec-products", joinColumns= @JoinColumn(name = "product_id"), inverseJoinColumns= @JoinColumn(name = "spec_id"))
+//    private Set<Product> productList;
+
+    @ManyToMany(mappedBy = "specs", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Product> productList;
 
     @Column
