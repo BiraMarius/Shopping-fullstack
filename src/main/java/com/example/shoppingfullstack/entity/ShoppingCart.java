@@ -1,7 +1,11 @@
 package com.example.shoppingfullstack.entity;
 
+import com.example.shoppingfullstack.util.CartStatus;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -9,6 +13,9 @@ import java.util.Set;
 @Entity
 @Table(name="Carts")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +35,12 @@ public class ShoppingCart {
     private BigDecimal total;
 
     @Column
-    private String status;
+    private CartStatus status;
 
+    public ShoppingCart(Customer customer, Set<CartItem> items, BigDecimal total, CartStatus status) {
+        this.customer = customer;
+        this.items = items;
+        this.total = total;
+        this.status = status;
+    }
 }
