@@ -1,10 +1,12 @@
 package com.example.shoppingfullstack.controller;
 
 import com.example.shoppingfullstack.entity.Customer;
+import com.example.shoppingfullstack.entityBody.CartItemBody;
 import com.example.shoppingfullstack.repository.CustomerRepository;
 import com.example.shoppingfullstack.service.ShoppingCartService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,4 +29,11 @@ public class ShoppingCartController {
             return "Customer not found";
         }
     }
+
+    @PostMapping("/add-item-to-cart")
+    public String addItemToCart(@RequestBody CartItemBody cartItemBody){
+        shoppingCartService.addItemToCart(cartItemBody);
+        return "CartItem added.";
+    }
+
 }

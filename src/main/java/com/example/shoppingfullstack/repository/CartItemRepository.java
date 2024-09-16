@@ -23,4 +23,7 @@ public interface CartItemRepository extends JpaRepository<CartItem, Long> {
 //                                                                @Param("PHONE") String PHONE);
 
     Optional<CartItem> findCartItemByShoppingCartAndProductAndNameAndAmount(ShoppingCart shoppingCart, Product product, String name, Long amount);
+
+    Optional<CartItem> findCartItemByShoppingCartAndProduct(ShoppingCart shoppingCart, Product product);
+
 }

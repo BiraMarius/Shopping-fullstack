@@ -6,7 +6,7 @@ import lombok.Data;
 public class CartItemBody {
     private Long product_id;
 
-    private Long cart_id;
+    private Long customer_id;
 
     private Long amount;
 
