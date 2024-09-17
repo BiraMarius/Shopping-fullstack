@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -38,4 +39,12 @@ public class CustomerService {
         }
     }
 
+    public Customer findCustomer(Long customerId) throws RuntimeException{
+        Optional<Customer> customerOptional = customerRepository.findById(customerId);
+        if(customerOptional.isPresent()){
+            return customerOptional.get();
+        } else {
+            throw new ThisIsAGeneralException("Customer not found. Error:101");
+        }
+    }
 }
