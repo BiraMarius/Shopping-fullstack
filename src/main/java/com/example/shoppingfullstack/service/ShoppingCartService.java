@@ -4,6 +4,7 @@ import com.example.shoppingfullstack.entity.CartItem;
 import com.example.shoppingfullstack.entity.Customer;
 import com.example.shoppingfullstack.entity.ShoppingCart;
 import com.example.shoppingfullstack.entityBody.CartItemBody;
+import com.example.shoppingfullstack.exception.ThisIsAGeneralException;
 import com.example.shoppingfullstack.repository.ShoppingCartRepository;
 import com.example.shoppingfullstack.util.CartStatus;
 import lombok.AllArgsConstructor;
@@ -22,14 +23,20 @@ public class ShoppingCartService {
     private final CartItemService cartItemService;
 
     public ShoppingCart addOrReturnCart(Customer customer){
+        ShoppingCart shoppingCart1 = findActiveShoppingCart(customer);
+        if (shoppingCart1 != null) return shoppingCart1;
+        ShoppingCart shoppingCart = new ShoppingCart(customer, new HashSet<>(), BigDecimal.valueOf(0), CartStatus.ACTIVE);
+        shoppingCartRepository.save(shoppingCart);
+        return shoppingCart;
+    }
+
+    private static ShoppingCart findActiveShoppingCart(Customer customer) {
         for(ShoppingCart shoppingCart : customer.getCarts()){
             if(shoppingCart.getStatus().equals(CartStatus.ACTIVE)){
                 return shoppingCart;
             }
         }
-        ShoppingCart shoppingCart = new ShoppingCart(customer, new HashSet<>(), BigDecimal.valueOf(0), CartStatus.ACTIVE);
-        shoppingCartRepository.save(shoppingCart);
-        return shoppingCart;
+        return null;
     }
 
     private BigDecimal updateCartTotalPrice(ShoppingCart shoppingCart){
@@ -86,6 +93,23 @@ public class ShoppingCartService {
         shoppingCart.setTotal(updateCartTotalPrice(shoppingCart));//Update shoppingCart total price.
         shoppingCartRepository.save(shoppingCart);//Update shoppingCart.
         return itemToBeAddAndSaved;
+    }
+
+    public String deleteCartItemFromCart(Long cartItemId, Long customerId) throws RuntimeException{
+        Customer customer = customerService.findCustomer(customerId);
+        ShoppingCart shoppingCart = findActiveShoppingCart(customer);
+        if(shoppingCart!=null){
+            for(CartItem item : shoppingCart.getItems()){
+                if (item.getId().equals(cartItemId)) {
+                    cartItemService.deleteCartItemFromRepository(item);
+                    shoppingCart.getItems().remove(item);
+                    shoppingCart.setTotal(updateCartTotalPrice(shoppingCart));//Update shoppingCart total price.
+                    shoppingCartRepository.save(shoppingCart);//Update shoppingCart.
+                    return "Item removed.";
+                }
+            }
+        }
+        throw new ThisIsAGeneralException("Something went wrong. ERROR:105");
     }
 
 }

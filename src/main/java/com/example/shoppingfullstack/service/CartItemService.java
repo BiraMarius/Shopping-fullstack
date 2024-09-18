@@ -59,7 +59,17 @@ public class CartItemService {
         throw new ThisIsAGeneralException("Something went wrong. The product you are trying to add in your shopping cart doesn't exist in database. ERROR:103");
     }
 
+    public CartItem findCartItemById(Long cartItemId) throws RuntimeException{
+        Optional<CartItem> cartItemOptional = cartItemRepository.findCartItemById(cartItemId);
+        if(cartItemOptional.isPresent()){
+            return cartItemOptional.get();
+        }
+        throw new ThisIsAGeneralException("CartItem not found. ERROR:104");
+    }
 
+    public void deleteCartItemFromRepository(CartItem cartItem){
+        cartItemRepository.delete(cartItem);
+    }
 
 
 }
