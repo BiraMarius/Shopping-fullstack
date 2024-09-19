@@ -112,4 +112,23 @@ public class ShoppingCartService {
         throw new ThisIsAGeneralException("Something went wrong. ERROR:105");
     }
 
+    public String removeAmountOfCartItem(Long cartItemId, Long customerId) throws RuntimeException{
+        Customer customer = customerService.findCustomer(customerId);
+        ShoppingCart shoppingCart = findActiveShoppingCart(customer);
+        if(shoppingCart!=null){
+            for(CartItem item : shoppingCart.getItems()){
+                if (item.getId().equals(cartItemId)) {
+                    Long amount = item.getAmount();
+                    item.setAmount(--amount);
+                    shoppingCart.getItems().remove(item);
+                    shoppingCart.getItems().add(item);
+                    shoppingCart.setTotal(updateCartTotalPrice(shoppingCart));//Update shoppingCart total price.
+                    shoppingCartRepository.save(shoppingCart);//Update shoppingCart.
+                    return "Item amount decreased.";
+                }
+            }
+        }
+        throw new ThisIsAGeneralException("Something went wrong. ERROR:106");
+    }
+
 }

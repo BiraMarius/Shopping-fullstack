@@ -54,5 +54,12 @@ public class ShoppingCartController {
         throw new ThisIsAGeneralException("EEEEEEEEEE");
     }
 
+    @PostMapping("/decrease-cartItem-amount")
+    public String decreaseAmount(@RequestParam Long cartItemId, @RequestParam Long customerId){
+        return shoppingCartService.removeAmountOfCartItem(cartItemId, customerId);
+    }
+
+
+
 
 }
