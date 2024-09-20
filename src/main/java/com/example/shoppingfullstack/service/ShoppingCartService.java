@@ -121,6 +121,7 @@ public class ShoppingCartService {
                     Long amount = item.getAmount();
                     item.setAmount(--amount);
                     shoppingCart.getItems().remove(item);
+                    cartItemService.updateRepository(item);
                     shoppingCart.getItems().add(item);
                     shoppingCart.setTotal(updateCartTotalPrice(shoppingCart));//Update shoppingCart total price.
                     shoppingCartRepository.save(shoppingCart);//Update shoppingCart.
@@ -129,6 +130,26 @@ public class ShoppingCartService {
             }
         }
         throw new ThisIsAGeneralException("Something went wrong. ERROR:106");
+    }
+
+    public String increaseAmountOfCartItem(Long cartItemId, Long customerId){
+        Customer customer = customerService.findCustomer(customerId);
+        ShoppingCart shoppingCart = findActiveShoppingCart(customer);
+        if(shoppingCart!=null){
+            for(CartItem item : shoppingCart.getItems()){
+                if(item.getId().equals(cartItemId)){
+                    Long amount = item.getAmount();
+                    item.setAmount(++amount);
+                    shoppingCart.getItems().remove(item);
+                    cartItemService.updateRepository(item);
+                    shoppingCart.getItems().add(item);
+                    shoppingCart.setTotal(updateCartTotalPrice(shoppingCart));//Update shoppingCart total price.
+                    shoppingCartRepository.save(shoppingCart);//Update shoppingCart.
+                    return "Item amount increased.";
+                }
+            }
+        }
+        throw new ThisIsAGeneralException("Something went wrong. ERROR:107");
     }
 
 }

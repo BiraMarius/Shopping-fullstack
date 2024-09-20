@@ -71,5 +71,13 @@ public class CartItemService {
         cartItemRepository.delete(cartItem);
     }
 
+    public void updateRepository(CartItem cartItem){
+        updateTotalPrice(cartItem);
+        cartItemRepository.save(cartItem);
+    }
 
+    public void updateTotalPrice(CartItem cartItem){
+        BigDecimal updatedTotalPrice = cartItem.getPricePerProduct().multiply(BigDecimal.valueOf(cartItem.getAmount()));
+        cartItem.setTotalPrice(updatedTotalPrice);
+    }
 }

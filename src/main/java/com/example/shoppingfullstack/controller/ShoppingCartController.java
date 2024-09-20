@@ -59,6 +59,11 @@ public class ShoppingCartController {
         return shoppingCartService.removeAmountOfCartItem(cartItemId, customerId);
     }
 
+    @PostMapping("/increase-cartItem-amount")
+    public String increaseAmount(@RequestParam Long cartItemId, @RequestParam Long customerId){
+        return shoppingCartService.increaseAmountOfCartItem(cartItemId, customerId);
+    }
+
 
 
 
