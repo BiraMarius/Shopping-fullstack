@@ -4,6 +4,7 @@ import com.example.shoppingfullstack.entity.CartItem;
 import com.example.shoppingfullstack.entity.Customer;
 import com.example.shoppingfullstack.entity.ShoppingCart;
 import com.example.shoppingfullstack.entityBody.CartItemBody;
+import com.example.shoppingfullstack.entityBody.CustomerOrderBody;
 import com.example.shoppingfullstack.exception.ThisIsAGeneralException;
 import com.example.shoppingfullstack.repository.CustomerRepository;
 import com.example.shoppingfullstack.repository.ShoppingCartRepository;
@@ -56,12 +57,18 @@ public class ShoppingCartController {
 
     @PostMapping("/decrease-cartItem-amount")
     public String decreaseAmount(@RequestParam Long cartItemId, @RequestParam Long customerId){
-        return shoppingCartService.removeAmountOfCartItem(cartItemId, customerId);
+        return shoppingCartService.decreaseAmountOfCartItem(cartItemId, customerId);
     }
 
     @PostMapping("/increase-cartItem-amount")
     public String increaseAmount(@RequestParam Long cartItemId, @RequestParam Long customerId){
         return shoppingCartService.increaseAmountOfCartItem(cartItemId, customerId);
+    }
+
+    @PostMapping("/order-cart")
+    public String orderCart(@RequestBody CustomerOrderBody customerOrderBody){
+        shoppingCartService.orderThisCart(customerOrderBody);
+        return "Cart ordered";
     }
 
 

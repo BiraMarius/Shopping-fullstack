@@ -28,4 +28,11 @@ public class CustomerOrder {
     @OneToOne
     @JoinColumn(name="customerContact_id")
     private CustomerContact customerContactInfo;
+
+    public CustomerOrder(ShoppingCart cart, DeliveryStatus status, DeliveryAddress deliveryAddress, CustomerContact customerContactInfo) {
+        this.cart = cart;
+        this.status = status;
+        this.deliveryAddress = deliveryAddress;
+        this.customerContactInfo = customerContactInfo;
+    }
 }

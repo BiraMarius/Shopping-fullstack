@@ -2,16 +2,21 @@ package com.example.shoppingfullstack.service;
 
 import com.example.shoppingfullstack.entity.CartItem;
 import com.example.shoppingfullstack.entity.Customer;
+import com.example.shoppingfullstack.entity.CustomerOrder;
 import com.example.shoppingfullstack.entity.ShoppingCart;
 import com.example.shoppingfullstack.entityBody.CartItemBody;
+import com.example.shoppingfullstack.entityBody.CustomerOrderBody;
 import com.example.shoppingfullstack.exception.ThisIsAGeneralException;
+import com.example.shoppingfullstack.repository.CustomerOrderRepository;
 import com.example.shoppingfullstack.repository.ShoppingCartRepository;
 import com.example.shoppingfullstack.util.CartStatus;
+import com.example.shoppingfullstack.util.DeliveryStatus;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -21,6 +26,7 @@ public class ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final CustomerService customerService;
     private final CartItemService cartItemService;
+    private final CustomerOrderRepository customerOrderRepository;
 
     public ShoppingCart addOrReturnCart(Customer customer){
         ShoppingCart shoppingCart1 = findActiveShoppingCart(customer);
@@ -112,7 +118,7 @@ public class ShoppingCartService {
         throw new ThisIsAGeneralException("Something went wrong. ERROR:105");
     }
 
-    public String removeAmountOfCartItem(Long cartItemId, Long customerId) throws RuntimeException{
+    public String decreaseAmountOfCartItem(Long cartItemId, Long customerId) throws RuntimeException{
         Customer customer = customerService.findCustomer(customerId);
         ShoppingCart shoppingCart = findActiveShoppingCart(customer);
         if(shoppingCart!=null){
@@ -120,19 +126,29 @@ public class ShoppingCartService {
                 if (item.getId().equals(cartItemId)) {
                     Long amount = item.getAmount();
                     item.setAmount(--amount);
-                    shoppingCart.getItems().remove(item);
-                    cartItemService.updateRepository(item);
-                    shoppingCart.getItems().add(item);
-                    shoppingCart.setTotal(updateCartTotalPrice(shoppingCart));//Update shoppingCart total price.
-                    shoppingCartRepository.save(shoppingCart);//Update shoppingCart.
-                    return "Item amount decreased.";
+                    if(amount>0){
+                        changeOldItemWithNew(item, shoppingCart);
+                        return "Item amount decreased.";
+                    } else {
+                        deleteCartItemFromCart(item.getId(), customerId);
+                    }
+
+
                 }
             }
         }
         throw new ThisIsAGeneralException("Something went wrong. ERROR:106");
     }
 
-    public String increaseAmountOfCartItem(Long cartItemId, Long customerId){
+    private void changeOldItemWithNew(CartItem item, ShoppingCart shoppingCart) {
+        shoppingCart.getItems().remove(item);
+        cartItemService.updateRepository(item);
+        shoppingCart.getItems().add(item);
+        shoppingCart.setTotal(updateCartTotalPrice(shoppingCart));//Update shoppingCart total price.
+        shoppingCartRepository.save(shoppingCart);//Update shoppingCart.
+    }
+
+    public String increaseAmountOfCartItem(Long cartItemId, Long customerId) throws RuntimeException{
         Customer customer = customerService.findCustomer(customerId);
         ShoppingCart shoppingCart = findActiveShoppingCart(customer);
         if(shoppingCart!=null){
@@ -140,16 +156,24 @@ public class ShoppingCartService {
                 if(item.getId().equals(cartItemId)){
                     Long amount = item.getAmount();
                     item.setAmount(++amount);
-                    shoppingCart.getItems().remove(item);
-                    cartItemService.updateRepository(item);
-                    shoppingCart.getItems().add(item);
-                    shoppingCart.setTotal(updateCartTotalPrice(shoppingCart));//Update shoppingCart total price.
-                    shoppingCartRepository.save(shoppingCart);//Update shoppingCart.
+                    changeOldItemWithNew(item, shoppingCart);
                     return "Item amount increased.";
                 }
             }
         }
         throw new ThisIsAGeneralException("Something went wrong. ERROR:107");
+    }
+
+    public String orderThisCart(CustomerOrderBody customerOrderBody) throws RuntimeException{
+        Optional<ShoppingCart> shoppingCartOpt = shoppingCartRepository.findById(customerOrderBody.getCartId());
+        if(shoppingCartOpt.isPresent()){
+            ShoppingCart shoppingCart = shoppingCartOpt.get();
+            CustomerOrder customerOrder = new CustomerOrder(shoppingCart, DeliveryStatus.PREPARING_ORDER, customerOrderBody.getDeliveryAddress(), customerOrderBody.getCustomerContactInfo());
+            customerOrderRepository.save(customerOrder);
+            shoppingCart.setStatus(CartStatus.ORDERED);
+            shoppingCartRepository.save(shoppingCart);
+        }
+        throw new ThisIsAGeneralException("Something went wrong, shopping cart not found. ERROR:108");
     }
 
 }
