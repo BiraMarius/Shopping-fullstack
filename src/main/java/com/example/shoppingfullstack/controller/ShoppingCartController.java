@@ -67,8 +67,7 @@ public class ShoppingCartController {
 
     @PostMapping("/order-cart")
     public String orderCart(@RequestBody CustomerOrderBody customerOrderBody){
-        shoppingCartService.orderThisCart(customerOrderBody);
-        return "Cart ordered";
+        return shoppingCartService.orderThisCart(customerOrderBody);
     }
 
 

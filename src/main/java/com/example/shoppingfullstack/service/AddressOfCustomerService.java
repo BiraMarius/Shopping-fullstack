@@ -1,13 +1,15 @@
 package com.example.shoppingfullstack.service;
 
-import com.example.shoppingfullstack.entity.AddressOfCustomer;
-import com.example.shoppingfullstack.entity.Customer;
+import com.example.shoppingfullstack.entity.*;
 import com.example.shoppingfullstack.entityBody.AddressOfCustomerBody;
 import com.example.shoppingfullstack.exception.ThisIsAGeneralException;
 import com.example.shoppingfullstack.repository.AddressOfCustomerRepository;
 import com.example.shoppingfullstack.repository.CustomerRepository;
+import com.example.shoppingfullstack.repository.DeliveryAddressRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -15,6 +17,7 @@ public class AddressOfCustomerService {
 
     private final AddressOfCustomerRepository addressOfCustomerRepository;
     private final CustomerRepository customerRepository;
+    private final DeliveryAddressRepository deliveryAddressRepository;
 
     public void addAddressOfCustomer(AddressOfCustomerBody addressOfCustomerBody) throws RuntimeException{
         Customer customer = customerRepository.findCustomerByEmailIgnoreCase(addressOfCustomerBody.getCustomerEmail());
@@ -51,5 +54,50 @@ public class AddressOfCustomerService {
             throw new ThisIsAGeneralException(fieldName+" is empty.");
         }
     }
+
+    public AddressOfCustomer mappingAddressOfCustomerFromDeliceryAddress(DeliveryAddress deliveryAddress){
+        return AddressOfCustomer.builder()
+                .country(deliveryAddress.getCountry())
+                .county(deliveryAddress.getCounty())
+                .city(deliveryAddress.getCity())
+                .postalCode(deliveryAddress.getPostalCode())
+                .street(deliveryAddress.getStreet())
+                .number(deliveryAddress.getNumber())
+                .building(deliveryAddress.getBuilding())
+                .additionalInfo(deliveryAddress.getAdditionalInfo())
+                .build();
+    }
+
+    public DeliveryAddress mappingDeliveryAddressFromAddressOfCustomer(AddressOfCustomer addressOfCustomer){
+        return DeliveryAddress.builder()
+                .country(addressOfCustomer.getCountry())
+                .county(addressOfCustomer.getCounty())
+                .city(addressOfCustomer.getCity())
+                .postalCode(addressOfCustomer.getPostalCode())
+                .street(addressOfCustomer.getStreet())
+                .number(addressOfCustomer.getNumber())
+                .building(addressOfCustomer.getBuilding())
+                .additionalInfo(addressOfCustomer.getAdditionalInfo())
+                .build();
+    }
+
+    public DeliveryAddress checkAddressOfCustomerAndReturnDeliveryAddress(AddressOfCustomer addressOfCustomer) throws RuntimeException{
+        if(addressOfCustomer.getId() == null){
+            addressOfCustomerRepository.save(addressOfCustomer);
+            DeliveryAddress deliveryAddress = mappingDeliveryAddressFromAddressOfCustomer(addressOfCustomer);
+            deliveryAddressRepository.save(deliveryAddress);
+            return deliveryAddress;
+        }
+        Optional<AddressOfCustomer> addressOfCustomerOptional = addressOfCustomerRepository.findById(addressOfCustomer.getId());
+        if(addressOfCustomerOptional.isPresent()){
+            DeliveryAddress deliveryAddress = mappingDeliveryAddressFromAddressOfCustomer(addressOfCustomerOptional.get());
+            deliveryAddressRepository.save(deliveryAddress);
+            return deliveryAddress;
+        }
+        throw new ThisIsAGeneralException("Something went wrong. Error: 110");
+
+    }
+
+
 
 }

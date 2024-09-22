@@ -1,5 +1,6 @@
 package com.example.shoppingfullstack.entityBody;
 
+import com.example.shoppingfullstack.entity.AddressOfCustomer;
 import com.example.shoppingfullstack.entity.CustomerContact;
 import com.example.shoppingfullstack.entity.DeliveryAddress;
 import com.example.shoppingfullstack.entity.ShoppingCart;
@@ -10,7 +11,7 @@ public class CustomerOrderBody {
 
     private Long cartId;
 
-    private DeliveryAddress deliveryAddress;
+    private AddressOfCustomer addressOfCustomer;
 
     private CustomerContact customerContactInfo;
 }

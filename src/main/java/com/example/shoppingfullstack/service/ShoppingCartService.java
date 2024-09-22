@@ -1,14 +1,10 @@
 package com.example.shoppingfullstack.service;
 
-import com.example.shoppingfullstack.entity.CartItem;
-import com.example.shoppingfullstack.entity.Customer;
-import com.example.shoppingfullstack.entity.CustomerOrder;
-import com.example.shoppingfullstack.entity.ShoppingCart;
+import com.example.shoppingfullstack.entity.*;
 import com.example.shoppingfullstack.entityBody.CartItemBody;
 import com.example.shoppingfullstack.entityBody.CustomerOrderBody;
 import com.example.shoppingfullstack.exception.ThisIsAGeneralException;
-import com.example.shoppingfullstack.repository.CustomerOrderRepository;
-import com.example.shoppingfullstack.repository.ShoppingCartRepository;
+import com.example.shoppingfullstack.repository.*;
 import com.example.shoppingfullstack.util.CartStatus;
 import com.example.shoppingfullstack.util.DeliveryStatus;
 import lombok.AllArgsConstructor;
@@ -27,6 +23,9 @@ public class ShoppingCartService {
     private final CustomerService customerService;
     private final CartItemService cartItemService;
     private final CustomerOrderRepository customerOrderRepository;
+    private final AddressOfCustomerService addressOfCustomerService;
+    private final DeliveryAddressRepository deliveryAddressRepository;
+    private final CustomerContactRepository customerContactRepository;
 
     public ShoppingCart addOrReturnCart(Customer customer){
         ShoppingCart shoppingCart1 = findActiveShoppingCart(customer);
@@ -168,10 +167,16 @@ public class ShoppingCartService {
         Optional<ShoppingCart> shoppingCartOpt = shoppingCartRepository.findById(customerOrderBody.getCartId());
         if(shoppingCartOpt.isPresent()){
             ShoppingCart shoppingCart = shoppingCartOpt.get();
-            CustomerOrder customerOrder = new CustomerOrder(shoppingCart, DeliveryStatus.PREPARING_ORDER, customerOrderBody.getDeliveryAddress(), customerOrderBody.getCustomerContactInfo());
+            DeliveryAddress deliveryAddress = addressOfCustomerService.checkAddressOfCustomerAndReturnDeliveryAddress(customerOrderBody.getAddressOfCustomer());
+            CustomerContact customerContact = customerOrderBody.getCustomerContactInfo();
+            customerContactRepository.save(customerContact);
+            CustomerOrder customerOrder = new CustomerOrder(shoppingCart, DeliveryStatus.PREPARING_ORDER, deliveryAddress, customerContact);
+            deliveryAddress.setCustomerOrder(customerOrder);
             customerOrderRepository.save(customerOrder);
+            deliveryAddressRepository.save(deliveryAddress);
             shoppingCart.setStatus(CartStatus.ORDERED);
             shoppingCartRepository.save(shoppingCart);
+            return "Cart ordered.";
         }
         throw new ThisIsAGeneralException("Something went wrong, shopping cart not found. ERROR:108");
     }
