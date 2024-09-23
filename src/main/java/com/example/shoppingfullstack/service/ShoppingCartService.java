@@ -130,9 +130,8 @@ public class ShoppingCartService {
                         return "Item amount decreased.";
                     } else {
                         deleteCartItemFromCart(item.getId(), customerId);
+                        return "Item amount is 0. Deleted from the cart.";
                     }
-
-
                 }
             }
         }
